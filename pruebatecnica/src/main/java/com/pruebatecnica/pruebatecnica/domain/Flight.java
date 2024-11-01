@@ -1,13 +1,6 @@
 package com.pruebatecnica.pruebatecnica.domain;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "flights")
@@ -17,27 +10,31 @@ public class Flight {
     private int id;
 
     @Column
-    private String destination;
+    private String departureStation;
 
     @Column
-    private String origin;
+    private String arrivalStation;
 
     @Column
-    private Double price;
+    private Double Price;
 
     @ManyToOne
     @JoinColumn(name = "idtransport", insertable = false, updatable = false)
     private Transport transport;
 
-    public Flight() {
-    }
+    @ManyToMany(mappedBy = "flights")
+    private Set<Journey> journeys;
 
-    public Flight(int id, String destination, String origin, Double price, Transport transport) {
+    public Flight() {}
+
+
+    public Flight(int id, String departureStation, String arrivalStation, Double Price, Transport transport, Set<Journey> journeys) {
         this.id = id;
-        this.destination = destination;
-        this.origin = origin;
-        this.price = price;
+        this.departureStation = departureStation;
+        this.arrivalStation = arrivalStation;
+        this.Price = Price;
         this.transport = transport;
+        this.journeys = journeys;
     }
 
     public int getId() {
@@ -48,28 +45,28 @@ public class Flight {
         this.id = id;
     }
 
-    public String getDestination() {
-        return this.destination;
+    public String getDepartureStation() {
+        return this.departureStation;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public void setDepartureStation(String departureStation) {
+        this.departureStation = departureStation;
     }
 
-    public String getOrigin() {
-        return this.origin;
+    public String getArrivalStation() {
+        return this.arrivalStation;
     }
 
-    public void setOrigin(String origin) {
-        this.origin = origin;
+    public void setArrivalStation(String arrivalStation) {
+        this.arrivalStation = arrivalStation;
     }
 
     public Double getPrice() {
-        return this.price;
+        return this.Price;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPrice(Double Price) {
+        this.Price = Price;
     }
 
     public Transport getTransport() {
@@ -80,7 +77,12 @@ public class Flight {
         this.transport = transport;
     }
 
+    public Set<Journey> getJourneys() {
+        return this.journeys;
+    }
 
+    public void setJourneys(Set<Journey> journeys) {
+        this.journeys = journeys;
+    }
     
-
 }

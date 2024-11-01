@@ -8,7 +8,7 @@ import com.pruebatecnica.pruebatecnica.infrastructure.utils.exceptions.GlobalExc
 
 public interface IJourney {
 
-    Optional<Journey> findByDestinationAndOrigin(String destination, String origin) throws GlobalExceptions;
+    Optional<Journey> findByDestinationAndOrigin(String destination, String departurestation) throws GlobalExceptions;
 
     Journey save(Journey journey) throws GlobalExceptions;
 
