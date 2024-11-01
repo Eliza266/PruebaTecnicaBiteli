@@ -1,4 +1,4 @@
-package com.pruebatecnica.pruebatecnica.infrastructure.repository;
+package com.pruebatecnica.pruebatecnica.infrastructure.repository.journey;
 
 import org.springframework.stereotype.Repository;
 
