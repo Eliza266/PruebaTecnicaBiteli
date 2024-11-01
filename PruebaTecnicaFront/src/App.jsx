@@ -1,33 +1,68 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [ciudadOrigen, setCiudadOrigen] = useState('')
+  const [ciudadDestino, setCiudadDestino] = useState('')
+  const [resultado, setResultado] = useState(null)
+  const [error, setError] = useState(false)
+
+  const handleBuscar = () => {
+    if (ciudadOrigen && ciudadDestino) {
+      // Simulación de resultado de búsqueda
+      const busquedaExitosa = Math.random() > 0.5 // Cambiar esta línea para consulta real
+      if (busquedaExitosa) {
+        setResultado({
+          titulo: `Vuelo ${ciudadOrigen} - ${ciudadDestino}`,
+          precio: '0',
+          compania: 'AV'
+        })
+        setError(false)
+      } else {
+        setError(true)
+        setResultado(null)
+      }
+    }
+  }
+
+  const handleCerrarModal = () => {
+    setError(false)
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
+      <h1>AV Viaje Por Colombia</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        <input
+          type="text"
+          placeholder="Ciudad Origen"
+          value={ciudadOrigen}
+          onChange={(e) => setCiudadOrigen(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Ciudad Destino"
+          value={ciudadDestino}
+          onChange={(e) => setCiudadDestino(e.target.value)}
+        />
+        <button onClick={handleBuscar}>Buscar</button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      {error && (
+        <div className="modal">
+          <button className="close" onClick={handleCerrarModal}>X</button>
+          <h2>Error</h2>
+          <p>No se pudo encontrar una ruta.</p>
+        </div>
+      )}
+
+      {resultado && (
+        <div className="resultado">
+          <h2>{resultado.titulo}</h2>
+          <p>Precio: {resultado.precio}</p>
+          <p>Compañía: {resultado.compania}</p>
+        </div>
+      )}
     </>
   )
 }
