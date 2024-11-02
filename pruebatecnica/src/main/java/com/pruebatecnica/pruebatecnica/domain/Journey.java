@@ -1,6 +1,7 @@
 package com.pruebatecnica.pruebatecnica.domain;
 
 import jakarta.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -11,13 +12,10 @@ public class Journey {
     private int id;
 
     @Column
-    private String destination;
+    private String arrivalStation;
 
     @Column
-    private String origin;
-
-    @Column
-    private Double price;
+    private String departureStation;
 
     @ManyToMany
     @JoinTable(
@@ -25,27 +23,58 @@ public class Journey {
         joinColumns = @JoinColumn(name = "journey_id"),
         inverseJoinColumns = @JoinColumn(name = "flight_id")
     )
-    private Set<Flight> flights;
+    private Set<Flight> flights = new HashSet<>(); 
 
     public Journey() {}
 
-    public Journey(int id, String destination, String origin, Double price) {
+    public Journey(int id, String arrivalStation, String departurestation, Set<Flight> flights) {
         this.id = id;
-        this.destination = destination;
-        this.origin = origin;
-        this.price = price;
+        this.arrivalStation = arrivalStation;
+        this.departureStation = departurestation;
+        this.flights = flights;
     }
 
-    // Getters y setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    public String getDestination() { return destination; }
-    public void setDestination(String destination) { this.destination = destination; }
-    public String getOrigin() { return origin; }
-    public void setOrigin(String origin) { this.origin = origin; }
-    public Double getPrice() { return price; }
-    public void setPrice(Double price) { this.price = price; }
+    public int getId() {
+        return this.id;
+    }
 
-    public Set<Flight> getFlights() { return flights; }
-    public void setFlights(Set<Flight> flights) { this.flights = flights; }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getArrivalStation() {
+        return this.arrivalStation;
+    }
+
+    public void setArrivalStation(String arrivalStation) {
+        this.arrivalStation = arrivalStation;
+    }
+
+    public String getDeparturestation() {
+        return this.departureStation;
+    }
+
+    public void setDeparturestation(String departurestation) {
+        this.departureStation = departurestation;
+    }
+
+    public Set<Flight> getFlights() {
+        return this.flights;
+    }
+
+    public void setFlights(Set<Flight> flights) {
+        this.flights = flights;
+    }
+
+    // Método para calcular el precio total del Journey sumando los precios de los vuelos
+    private Double calculatePrice() {
+        return flights.stream()
+                      .mapToDouble(Flight::getPrice)
+                      .sum();
+    }
+
+    // Método getter para price que llama a calculatePrice()
+    public Double getPrice() {
+        return calculatePrice();
+    }
 }

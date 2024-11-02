@@ -1,4 +1,5 @@
 package com.pruebatecnica.pruebatecnica.domain;
+
 import jakarta.persistence.*;
 import java.util.Set;
 
@@ -16,10 +17,10 @@ public class Flight {
     private String arrivalStation;
 
     @Column
-    private Double Price;
+    private Double price;
 
     @ManyToOne
-    @JoinColumn(name = "idtransport", insertable = false, updatable = false)
+    @JoinColumn(name = "idtransport", insertable = true, updatable = true) // Permitir que sea insertable y actualizable
     private Transport transport;
 
     @ManyToMany(mappedBy = "flights")
@@ -27,15 +28,16 @@ public class Flight {
 
     public Flight() {}
 
-
-    public Flight(int id, String departureStation, String arrivalStation, Double Price, Transport transport, Set<Journey> journeys) {
+    public Flight(int id, String departureStation, String arrivalStation, Double price, Transport transport, Set<Journey> journeys) {
         this.id = id;
         this.departureStation = departureStation;
         this.arrivalStation = arrivalStation;
-        this.Price = Price;
+        this.price = price;
         this.transport = transport;
         this.journeys = journeys;
     }
+
+    // Getters y setters
 
     public int getId() {
         return this.id;
@@ -62,11 +64,11 @@ public class Flight {
     }
 
     public Double getPrice() {
-        return this.Price;
+        return this.price;
     }
 
-    public void setPrice(Double Price) {
-        this.Price = Price;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public Transport getTransport() {
@@ -84,5 +86,4 @@ public class Flight {
     public void setJourneys(Set<Journey> journeys) {
         this.journeys = journeys;
     }
-    
 }

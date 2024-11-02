@@ -26,9 +26,9 @@ public class TransportController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(transport));
     }
 
-    @GetMapping("/search/{destination}/{origin}")
-    public Optional<Transport> searchTransport(@PathVariable String destination, @PathVariable String origin) {
-        return service.findByDestinationAndOrigin(destination, origin);
+    @GetMapping("/search/{carrier}/{number}")
+    public Optional<Transport> searchTransport(@PathVariable String carrier, @PathVariable String number) {
+        return service.findByFlightCarrierAndFlightNumber(carrier, number);
     }
 
 }

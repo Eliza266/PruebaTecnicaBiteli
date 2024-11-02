@@ -7,7 +7,9 @@ import com.pruebatecnica.pruebatecnica.infrastructure.utils.exceptions.GlobalExc
 
 public interface IFlight {
 
-    Optional<Flight> findByDestinationAndOrigin(String destination, String departurestation) throws GlobalExceptions;
+    // Optional<Flight> findByArrivalStationAndDepartureStation(String arrivalStation, String departureStation) throws GlobalExceptions;
+    Optional<Flight> findByArrivalStationAndDepartureStation(String arrivalStation, String departureStation);
+
 
     Flight save(Flight flight) throws GlobalExceptions;
 }

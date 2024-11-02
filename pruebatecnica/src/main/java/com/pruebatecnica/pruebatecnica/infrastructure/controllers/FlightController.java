@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pruebatecnica.pruebatecnica.application.IFlight;
 import com.pruebatecnica.pruebatecnica.domain.Flight;
 
-
 @RestController
 @RequestMapping("/api/flights")
 public class FlightController {
@@ -28,9 +27,8 @@ public class FlightController {
     }
 
     @GetMapping("/search/{destination}/{origin}")
-    public Optional<Flight> searchFlight(@PathVariable String destination, @PathVariable String origin) {
-        return service.findByDestinationAndOrigin(destination, origin);
+    public Optional<Flight> searchFlight(@PathVariable String arrivastation, @PathVariable String departurestation) {
+        return service.findByArrivalStationAndDepartureStation(arrivastation, departurestation);
     }
 
-    
 }

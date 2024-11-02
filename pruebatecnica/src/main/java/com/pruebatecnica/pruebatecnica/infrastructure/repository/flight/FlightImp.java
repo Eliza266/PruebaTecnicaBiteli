@@ -18,11 +18,18 @@ public class FlightImp implements IFlight {
 
     @Transactional(rollbackFor = GlobalExceptions.class)
     @Override
-    public Optional<Flight> findByDestinationAndOrigin(String destination, String origin) {
+    public Optional<Flight> findByArrivalStationAndDepartureStation(String arrivalStation, String departureStation) {
 
-        return Optional.ofNullable(flightRepository.findByDestinationAndOrigin(destination, origin)
-                .orElseThrow(() -> new GlobalExceptions(
-                        "La búsqueda no devolvió resultados para el destino y origen proporcionados")));
+        // return
+        // Optional.ofNullable(flightRepository.findByArrivalStationAndDepartureStation(arrivalStation,
+        // departureStation)
+        // .orElseThrow(() -> new GlobalExceptions(
+        // "La búsqueda no devolvió resultados para el destino y origen
+        // proporcionados")));
+
+        Optional<Flight> flight = flightRepository.findByArrivalStationAndDepartureStation(arrivalStation,
+                departureStation);
+        return flight;
     }
 
     @Transactional(rollbackFor = GlobalExceptions.class)

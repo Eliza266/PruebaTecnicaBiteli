@@ -18,20 +18,19 @@ public class TransportImp implements ITransport {
 
     @Transactional(rollbackFor = GlobalExceptions.class)
     @Override
-    public Optional<Transport> findByDestinationAndOrigin(String destination, String origin) {
-
-        return Optional.ofNullable(transportRepository.findByDestinationAndOrigin(destination, origin)
-                .orElseThrow(() -> new GlobalExceptions(
-                        "La búsqueda no devolvió resultados para el destino y origen proporcionados")));
-    }
-
-    @Transactional(rollbackFor = GlobalExceptions.class)
-    @Override
     public Transport save(Transport transport) {
         if (transport == null) {
             throw new GlobalExceptions("El valor a guardar no puede ser nulo");
         }
         return transportRepository.save(transport);
+    }
+
+    @Transactional(rollbackFor = GlobalExceptions.class)
+    @Override
+    public Optional<Transport> findByFlightCarrierAndFlightNumber(String flightCarrier, String flightNumber) {
+        Optional<Transport> transport = transportRepository.findByFlightCarrierAndFlightNumber(flightCarrier,
+                flightNumber);
+        return transport;
     }
 
 }

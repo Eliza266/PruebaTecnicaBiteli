@@ -18,11 +18,15 @@ public class JourneyImp implements IJourney {
 
     @Transactional(rollbackFor = GlobalExceptions.class)
     @Override
-    public Optional<Journey> findByDestinationAndOrigin(String destination, String origin) {
+    public Optional<Journey> findByArrivalStationAndDepartureStation(String arrivalStation, String departureStation) {
 
-        return Optional.ofNullable(journeyRepository.findByDestinationAndOrigin(destination, origin)
-                .orElseThrow(() -> new GlobalExceptions(
-                        "La búsqueda no devolvió resultados para el destino y origen proporcionados")));
+        // return Optional
+        //         .ofNullable(journeyRepository.findByArrivalStationAndDepartureStation(arrivalStation, departureStation)
+        //                 .orElseThrow(() -> new GlobalExceptions(
+        //                         "La búsqueda no devolvió resultados para el destino y origen proporcionados")));
+        Optional<Journey> journey = journeyRepository.findByArrivalStationAndDepartureStation(arrivalStation, departureStation);
+
+        return journey;
     }
 
     @Transactional(rollbackFor = GlobalExceptions.class)
