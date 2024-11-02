@@ -1,10 +1,9 @@
-
-import { useState, useEffect } from 'react';
-import './App.css';
+import { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
-  const [ciudadOrigen, setCiudadOrigen] = useState('');
-  const [ciudadDestino, setCiudadDestino] = useState('');
+  const [ciudadOrigen, setCiudadOrigen] = useState("");
+  const [ciudadDestino, setCiudadDestino] = useState("");
   const [ciudades, setCiudades] = useState([]);
   const [resultado, setResultado] = useState(null);
   const [error, setError] = useState(false);
@@ -12,11 +11,11 @@ function App() {
   useEffect(() => {
     const fetchCiudades = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/cities');
+        const response = await fetch("http://localhost:8080/api/cities");
         const data = await response.json();
         setCiudades(data);
       } catch (error) {
-        console.error('Error al obtener ciudades:', error);
+        console.error("Error al obtener ciudades:", error);
       }
     };
     fetchCiudades();
@@ -25,7 +24,9 @@ function App() {
   const handleBuscar = async () => {
     if (ciudadOrigen && ciudadDestino && ciudadOrigen !== ciudadDestino) {
       try {
-        const response = await fetch(`http://localhost:8080/api/find/${ciudadOrigen}/${ciudadDestino}`);
+        const response = await fetch(
+          `http://localhost:8080/api/find/${ciudadOrigen}/${ciudadDestino}`
+        );
         if (response.ok) {
           const data = await response.json();
           setResultado(data);
@@ -58,7 +59,11 @@ function App() {
           >
             <option value="">🛫 Selecciona Ciudad Origen</option>
             {ciudades.map((ciudad) => (
-              <option key={ciudad} value={ciudad} disabled={ciudad === ciudadDestino}>
+              <option
+                key={ciudad}
+                value={ciudad}
+                disabled={ciudad === ciudadDestino}
+              >
                 {ciudad}
               </option>
             ))}
@@ -70,7 +75,11 @@ function App() {
           >
             <option value="">🛬 Selecciona Ciudad Destino</option>
             {ciudades.map((ciudad) => (
-              <option key={ciudad} value={ciudad} disabled={ciudad === ciudadOrigen}>
+              <option
+                key={ciudad}
+                value={ciudad}
+                disabled={ciudad === ciudadOrigen}
+              >
                 {ciudad}
               </option>
             ))}
@@ -81,9 +90,14 @@ function App() {
 
         {error && (
           <div className="modal">
-            <button className="close" onClick={handleCerrarModal}>✕</button>
+            <button className="close" onClick={handleCerrarModal}>
+              ✕
+            </button>
             <h2>⚠️ Error</h2>
-            <p>No se pudo encontrar una ruta válida entre las ciudades seleccionadas.</p>
+            <p>
+              No se pudo encontrar una ruta válida entre las ciudades
+              seleccionadas.
+            </p>
           </div>
         )}
 
@@ -97,7 +111,10 @@ function App() {
               {resultado.flights.map((flight, index) => (
                 <div key={flight.id} className="flight-card">
                   <h3>Vuelo {index + 1}</h3>
-                  <p>✈️ {flight.transport.flightCarrier} - {flight.transport.flightNumber}</p>
+                  <p>
+                    ✈️ {flight.transport.flightCarrier} -{" "}
+                    {flight.transport.flightNumber}
+                  </p>
                   <p>🛫 Origen: {flight.departureStation}</p>
                   <p>🛬 Destino: {flight.arrivalStation}</p>
                   <p>💰 Precio: ${flight.price}</p>
