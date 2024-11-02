@@ -26,9 +26,9 @@ public class FlightController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(flight));
     }
 
-    @GetMapping("/search/{destination}/{origin}")
-    public Optional<Flight> searchFlight(@PathVariable String arrivastation, @PathVariable String departurestation) {
-        return service.findByArrivalStationAndDepartureStation(arrivastation, departurestation);
+    @GetMapping("/search/{origen}/{destino}")
+    public Optional<Flight> searchFlight(@PathVariable String departureStation , @PathVariable String arrivalStation) {
+        return service.findByDepartureStationAndArrivalStation(departureStation, arrivalStation);
     }
 
 }

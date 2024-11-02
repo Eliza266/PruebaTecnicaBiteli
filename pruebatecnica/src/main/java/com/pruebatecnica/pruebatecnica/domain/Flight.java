@@ -3,6 +3,8 @@ package com.pruebatecnica.pruebatecnica.domain;
 import jakarta.persistence.*;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "flights")
 public class Flight {
@@ -24,6 +26,7 @@ public class Flight {
     private Transport transport;
 
     @ManyToMany(mappedBy = "flights")
+    @JsonIgnore
     private Set<Journey> journeys;
 
     public Flight() {}

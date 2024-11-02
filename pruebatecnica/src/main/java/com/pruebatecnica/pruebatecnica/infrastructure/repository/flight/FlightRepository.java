@@ -10,5 +10,6 @@ import org.springframework.data.repository.CrudRepository;
 
 @Repository
 public interface FlightRepository extends CrudRepository<Flight, Integer>{
-    Optional<Flight> findByArrivalStationAndDepartureStation(String arrivalStation, String departureStation);
+    Optional<Flight> findByDepartureStationAndArrivalStation(String departureStation, String arrivalStation);
+
 }

@@ -12,20 +12,17 @@ public class Journey {
     private int id;
 
     @Column
+    private String departureStation;
+    
+    @Column
     private String arrivalStation;
 
-    @Column
-    private String departureStation;
-
     @ManyToMany
-    @JoinTable(
-        name = "journey_flight",
-        joinColumns = @JoinColumn(name = "journey_id"),
-        inverseJoinColumns = @JoinColumn(name = "flight_id")
-    )
-    private Set<Flight> flights = new HashSet<>(); 
+    @JoinTable(name = "journey_flight", joinColumns = @JoinColumn(name = "journey_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
+    private Set<Flight> flights = new HashSet<>();
 
-    public Journey() {}
+    public Journey() {
+    }
 
     public Journey(int id, String arrivalStation, String departurestation, Set<Flight> flights) {
         this.id = id;
@@ -66,11 +63,12 @@ public class Journey {
         this.flights = flights;
     }
 
-    // Método para calcular el precio total del Journey sumando los precios de los vuelos
+    // Método para calcular el precio total del Journey sumando los precios de los
+    // vuelos
     private Double calculatePrice() {
         return flights.stream()
-                      .mapToDouble(Flight::getPrice)
-                      .sum();
+                .mapToDouble(Flight::getPrice)
+                .sum();
     }
 
     // Método getter para price que llama a calculatePrice()

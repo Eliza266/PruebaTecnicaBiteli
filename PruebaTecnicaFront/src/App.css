@@ -1,59 +1,69 @@
-body,
-html {
-  height: 100%;
+* {
   margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: Arial, sans-serif;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-#root {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
+.app-container {
+  min-height: 100vh;
+  background-image: url("/airplane-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 2rem;
+  color: white;
+  text-align: center;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2rem;
+  border-radius: 15px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 h1 {
-  text-align: center;
-  font-size: 2em;
-  color: #7d7d7d;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 20px;
-  border: 1px solid #6a6a6a;
-  border-radius: 8px;
-  width: 300px;
-  background-color: #6a6a6a;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-input {
-  width: 90%;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  outline: none;
+select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #00000050;
+  background: rgba(9, 8, 8, 0.9);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+select:hover {
+  border-color: #fff;
 }
 
 button {
-  padding: 8px 16px;
-  background-color: #007bff;
+  padding: 12px 24px;
+  background: #007bff;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-size: 1rem;
   cursor: pointer;
-  margin-top: 10px;
+  transition: background 0.3s ease;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background: #0056b3;
 }
 
 .modal {
@@ -61,33 +71,60 @@ button:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgb(25, 25, 25);
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 300px;
-  text-align: center;
-}
-
-.modal button {
-  padding: 0;
-  margin: 0;
-  width: 40px;
-  height: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  color: #333;
 }
 
 .close {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: none;
-  border: none;
-  font-size: 1.5em;
+  background: #ff4444;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
 .resultado {
-  text-align: center;
-  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-top: 2rem;
+  color: #333;
+}
+
+.flights-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.flight-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.flight-card:hover {
+  transform: translateY(-5px);
+}
+
+.flight-card h3 {
+  color: #007bff;
+  margin-bottom: 1rem;
+}
+
+.flight-card p {
+  margin: 0.5rem 0;
+  color: #555;
 }

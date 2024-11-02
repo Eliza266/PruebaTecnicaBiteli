@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ import com.pruebatecnica.pruebatecnica.infrastructure.repository.transport.Trans
 public class ApiService {
 
     @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
     private TransportRepository transportRepository;
 
     @Autowired
@@ -34,13 +38,40 @@ public class ApiService {
     private JourneyRepository journeyRepository;
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
     private IJourney iJourney;
 
-    public Optional<Journey> fetchDataAndSave(String arrivalStation, String departureStation) {
-        Optional<Journey> journey = iJourney.findByArrivalStationAndDepartureStation(arrivalStation, departureStation);
+    public List<String> cities() {
+        String url = "https://bitecingcom.ipage.com/testapi/avanzado.js";
+        String response = restTemplate.getForObject(url, String.class);
+
+        response = response.replaceAll(",\\s*}", "}").trim();
+        if (response.endsWith(",")) {
+            response = response.substring(0, response.length() - 1);
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Set<String> uniqueStations = new HashSet<>();
+
+        try {
+            FlightDto[] datos = objectMapper.readValue(response, FlightDto[].class);
+            List<FlightDto> flightDtoList = Arrays.asList(datos);
+
+            // Agregar cada estación de salida y llegada a la lista de ciudades únicas
+            flightDtoList.forEach(flight -> {
+                uniqueStations.add(flight.getDepartureStation());
+                uniqueStations.add(flight.getArrivalStation());
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Convertir el Set a una List y devolverlo
+        return new ArrayList<>(uniqueStations);
+    }
+
+    public Optional<Journey> fetchDataAndSave(String departureStation, String arrivalStation) {
+        Optional<Journey> journey = iJourney.findByDepartureStationAndarrivalStation(departureStation, arrivalStation);
 
         if (journey.isPresent()) {
             return journey;
@@ -59,8 +90,8 @@ public class ApiService {
 
                 // Intentar encontrar un vuelo directo
                 List<FlightDto> directFlights = flightDtoList.stream()
-                        .filter(flight -> flight.getDepartureStation().equalsIgnoreCase(departureStation))
                         .filter(flight -> flight.getArrivalStation().equalsIgnoreCase(arrivalStation))
+                        .filter(flight -> flight.getDepartureStation().equalsIgnoreCase(departureStation))
                         .collect(Collectors.toList());
 
                 if (!directFlights.isEmpty()) {
@@ -93,8 +124,8 @@ public class ApiService {
         Journey journey;
 
         // Verificar si ya existe un Journey entre estas estaciones
-        Optional<Journey> optionalJourney = journeyRepository.findByArrivalStationAndDepartureStation(arrivalStation,
-                departureStation);
+        Optional<Journey> optionalJourney = journeyRepository.findByDepartureStationAndArrivalStation(departureStation,
+                arrivalStation);
         if (optionalJourney.isPresent()) {
             journey = optionalJourney.get();
             System.out.println("Existing journey found: " + journey.getId());
@@ -125,8 +156,8 @@ public class ApiService {
             }
 
             // Buscar vuelo existente o crear uno nuevo
-            Optional<Flight> optionalFlight = flightRepository.findByArrivalStationAndDepartureStation(
-                    flightDto.getArrivalStation(), flightDto.getDepartureStation());
+            Optional<Flight> optionalFlight = flightRepository.findByDepartureStationAndArrivalStation(
+                    flightDto.getDepartureStation(), flightDto.getDepartureStation());
 
             Flight flight;
             if (optionalFlight.isPresent()) {

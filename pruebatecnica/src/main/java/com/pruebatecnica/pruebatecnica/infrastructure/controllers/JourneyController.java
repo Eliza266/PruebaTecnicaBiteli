@@ -27,8 +27,8 @@ public class JourneyController {
     }
 
     @GetMapping("/search/{destination}/{origin}")
-    public Optional<Journey> searchJourney(@PathVariable String arrivalStation, @PathVariable String departureStation) {
-        return service.findByArrivalStationAndDepartureStation(arrivalStation, departureStation);
+    public Optional<Journey> searchJourney(@PathVariable String departureStation, @PathVariable String arrivalStation) {
+        return service.findByDepartureStationAndarrivalStation(departureStation, arrivalStation);
     }
 
     
